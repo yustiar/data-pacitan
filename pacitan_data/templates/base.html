@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+	{% include "snippets/head.html" %}
+<body>
+	<div class="container-fluid pt-3 mb-3"> 
+
+		{% include "snippets/header.html" %}
+		{% block content %}
+	  	{% endblock content %}
+		{% include "snippets/footer.html" %}
+		{% block scripts %}          
+	  	{% endblock scripts %}
+
+	  	
+  	</div>
+  <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>

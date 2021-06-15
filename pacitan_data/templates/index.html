@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="tab-content pb-5" id="pills-tabContent">
+        <div class="tab-pane fade" id="pills-berita" role="tabpanel" aria-labelledby="pills-berita-tab">  
+            Beritaaa
+        </div>
+
+        <div class="tab-pane fade" id="pills-publikasi" role="tabpanel" aria-labelledby="pills-publikasi-tab">
+            <div class="container">
+                <div class="row">Publikasi</div>
+                <div class="row row2">
+                    {% for o in posts %}
+                        <div class="card post-box border-primary mb-3" style="max-width: 18rem;">
+                            <div class="card-header">Header</div>
+                            <div class="card-body text-primary">
+                                <h5 class="card-title">{{o.title}}</h5>
+                                <p class="card-text">{{o.cover}}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="row"><button class="btn btn-dark" type="submit" id="load_pub">Load More</button></div>
+                
+                
+                
+            </div>
+
+            
+            
+            
+            
+
+
+        </div>	
+        	
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">Home</div>
+        <div class="tab-pane fade" id="pills-data" role="tabpanel" aria-labelledby="pills-data-tab">Data</div>
+        <div class="tab-pane fade" id="pills-brs" role="tabpanel" aria-labelledby="pills-brs-tab">BRS</div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+    {% include "snippets/scripts.html" %}
+    {% csrf_token %}
+    <script>
+
+    $(document).ready(function(){
+        $("#load_pub").on('click',function(){
+            var _currentResult=$(".post-box").length;
+				// console.log(_currentResult);
+            // Run Ajax
+            $.ajax({
+            	url:"{% url 'load_more_pub' %}",
+            	type:'post',
+            	data:{
+            		'offset':_currentResult,
+            		'csrfmiddlewaretoken':"{{csrf_token}}"
+            	},
+            	dataType:'json',
+            	beforeSend:function(){
+            		$("#load_pub").addClass('disabled').text('Loading..');
+            	},
+            	success:function(res){
+            		// console.log(res);
+            		var _html='';
+            		var json_data=res.posts;
+            		// console.log(json_data);
+            		$.each(json_data,function(index,data){
+            			_html+='<div class="card post-box border-primary b-3" style="max-width: 18rem;">'+
+                            '<div class="card-header">Header</div>'+
+                            '<div class="card-body text-primary">'+
+                            '<h5 class="card-title">'+data.title+'</h5>'+
+                            '<p class="card-text">'+data.rl_date+'</p>'+
+                            '</div>'+
+                            '</div>'
+                            ;
+                       });
+            		$(".row2").append(_html);
+            		var _countTotal=$(".post-box").length;
+            		console.log(_countTotal,+'--'+res.totalResult);
+            		
+            		if(_countTotal==res.totalResult){
+            			$("#load_pub").remove();
+            		}else{
+            			$("#load_pub").removeClass('disabled').text('Load More');
+            		}
+            	}
+            });
+        });
+
+    });
+    </script>
+{% endblock scripts %}
