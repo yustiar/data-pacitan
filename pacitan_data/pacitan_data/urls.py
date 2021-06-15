@@ -20,6 +20,11 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
+    path('load_init_news', views.load_init_news, name='load_init_news'),
+    path('load_more_news', views.load_more_news, name='load_more_news'),
     path('load_init_pub', views.load_init_pub, name='load_init_pub'),
     path('load_more_pub', views.load_more_pub, name='load_more_pub'),
+
+    path('load_init_brs', views.load_init_brs, name='load_init_brs'),
+    path('load_more_brs', views.load_more_brs, name='load_more_brs'),
 ]

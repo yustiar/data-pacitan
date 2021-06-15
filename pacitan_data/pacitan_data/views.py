@@ -10,8 +10,48 @@ def index(request):
 
 	return render(request, 'index.html', context)
 
-def load_init_pub(request):
+def load_init_news(request):
+	url = 'https://webapi.bps.go.id/v1/api/list'
+	params = {
+		'model': 'news',
+		'lang': 'ind',
+		'domain': '3501',
+		'page':1,
+		'key': '481cbe5f8403e091cb7abfd4d83829a3'
+	}
 
+	res = re.get(url, params=params)
+	data = res.json()
+	posts = data['data'][1]
+	print(posts)
+	return JsonResponse(data={
+		'posts':posts,
+	})
+def load_more_news(request):
+	offset=int(request.POST['offset'])
+	page=(offset/10)+1
+	url = 'https://webapi.bps.go.id/v1/api/list'
+	params = {
+		'model': 'news',
+		'lang': 'ind',
+		'domain': '3501',
+		'page':page,
+		'key': '481cbe5f8403e091cb7abfd4d83829a3'
+	}
+	posts=[]
+
+	res = re.get(url, params=params)
+	data = res.json()
+
+	posts = data['data'][1]
+	totalresult = data['data'][0]['total']
+	return JsonResponse(data={
+		'posts':posts,
+		'totalResult':totalresult,
+	})
+
+
+def load_init_pub(request):
 	url = 'https://webapi.bps.go.id/v1/api/list'
 	params = {
 		'model': 'publication',
@@ -28,9 +68,6 @@ def load_init_pub(request):
 	return JsonResponse(data={
 		'posts':posts,
 	})
-
-
-	
 def load_more_pub(request):
 	offset=int(request.POST['offset'])
 	page=(offset/10)+1
@@ -53,3 +90,47 @@ def load_more_pub(request):
 		'posts':posts,
 		'totalResult':totalresult,
 	})
+
+
+
+def load_init_brs(request):
+	url = 'https://webapi.bps.go.id/v1/api/list'
+	params = {
+		'model': 'pressrelease',
+		'lang': 'ind',
+		'domain': '3501',
+		'page':1,
+		'key': '481cbe5f8403e091cb7abfd4d83829a3'
+	}
+
+	res = re.get(url, params=params)
+	data = res.json()
+	posts = data['data'][1]
+	print(posts)
+	return JsonResponse(data={
+		'posts':posts,
+	})
+def load_more_brs(request):
+	offset=int(request.POST['offset'])
+	page=(offset/10)+1
+	url = 'https://webapi.bps.go.id/v1/api/list'
+	params = {
+		'model': 'pressrelease',
+		'lang': 'ind',
+		'domain': '3501',
+		'page':page,
+		'key': '481cbe5f8403e091cb7abfd4d83829a3'
+	}
+	posts=[]
+
+	res = re.get(url, params=params)
+	data = res.json()
+
+	posts = data['data'][1]
+	totalresult = data['data'][0]['total']
+	return JsonResponse(data={
+		'posts':posts,
+		'totalResult':totalresult,
+	})
+
+
