@@ -1,0 +1,71 @@
+.ajaxProgess {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 220, 184, 0.8);
+  z-index: 2;
+  cursor: pointer;
+}
+.text{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 50px;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+.tab{	
+	background-color: #ffffff;
+	border-radius: 10px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.7s linear;
+}
+
+.tab i{
+	font-size: 1.5em;
+	margin-left: 10px;
+}
+
+.tab p{
+	font-weight: bold;
+	font-size: 10px;
+	overflow: hidden;
+	max-width: 0;
+	margin: 10px;
+}
+
+.tab.active p{
+	margin-left: 5px;
+	max-width: 200px;
+	transition: max-width 0.7s linear;
+}
+.nav-item.active.tabhome{
+	background: rgb(253, 223, 223);
+	color: rgb(191, 23, 23);
+}
+.nav-item.active.tabdata{
+	background: rgb(252, 247, 222);
+	color: rgb(191, 146, 23);
+}
+.nav-item.active.tabpublication{
+	background: rgb(222, 253, 224);
+	color: rgb(17, 143, 55);
+}
+.nav-item.active.tabrelease{
+	background: rgb(222, 243, 253);
+	color: rgb(17, 101, 143);
+}
+.nav-item.active.tabnews{
+	background: rgb(240, 222, 253);
+	color: rgb(82, 17, 143);
+}

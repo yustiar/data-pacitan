@@ -1,20 +1,23 @@
 {% load static %}
-	<div>
-		<ul class="nav nav-pills fixed-bottom nav-justified w-100 bg-white" id="pills-tab" role="tablist">
-			<li class="nav-item">
-				<a class="nav-link" id="pills-berita-tab" data-toggle="pill" href="#pills-berita" role="tab" aria-controls="pills-berita" aria-selected="false">Berita</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="pills-publikasi-tab" data-toggle="pill" href="#pills-publikasi" role="tab" aria-controls="pills-publikasi" aria-selected="false">Publikasi</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Home</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="pills-data-tab" data-toggle="pill" href="#pills-data" role="tab" aria-controls="pills-data" aria-selected="false">Data</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="pills-brs-tab" data-toggle="pill" href="#pills-brs" role="tab" aria-controls="pills-brs" aria-selected="false">BRS</a>
-			</li>
-		</ul>
-	</div>
+	<ul class=" nav nav-pills fixed-bottom nav-justified w-100 bg-white" id="pills-tab" role="tablist">
+		<li class="tab tabhome nav-item active">
+			<i class="fas fa-home" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"></i>
+			<p>Home</p>
+		</li>
+		<li class="tab tabpublication nav-item">
+			<i class="fas fa-book" id="pills-publikasi-tab" data-toggle="pill" href="#pills-publikasi" role="tab" aria-controls="pills-publikasi"></i>
+			<p>Publication</p>
+		</li>
+		<li class="tab tabdata nav-item">
+			<i class="fas fa-box" id="pills-data-tab" data-toggle="pill" href="#pills-data" role="tab" aria-controls="pills-data"></i>
+			<p>Data</p>
+		</li>
+		<li class="tab tabrelease nav-item">
+			<i class="fas fa-file" id="pills-brs-tab" data-toggle="pill" href="#pills-brs" role="tab" aria-controls="pills-brs"></i>
+			<p>Release</p>
+		</li>
+		<li class="tab tabnews nav-item">
+			<i class="fas fa-newspaper" id="pills-berita-tab" data-toggle="pill" href="#pills-berita" role="tab" aria-controls="pills-berita"></i>
+			<p>News</p>
+		</li>
+	</ul>	

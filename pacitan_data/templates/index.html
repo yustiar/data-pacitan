@@ -3,62 +3,58 @@
 
 {% block content %}
     <div class="tab-content pb-5" id="pills-tabContent">
-        <div class="tab-pane fade" id="pills-berita" role="tabpanel" aria-labelledby="pills-berita-tab">
-            <div class="container">
-                <div class="row row1 d-flex justify-content-center">
+        <!--### LOADING CIRCLE ###-->
+        <div class="output">
+            <div class="container ">
+                <div class="row d-flex justify-content-center">
                     <div class="col-md-10">
-                        {% for o in posts %}
-                        <div class="card post-box-news border-primary pb-3" style="max-width: 30rem;">
-                            <div class="card-header">Header</div>
-                            <div class="card-body text-primary">
-                                <h5 class="card-title">{{o.title}}</h5>
-                                <p class="card-text">{{o.rl_date}}</p>
+                        <div class="ajaxProgess">
+                            <div class="text">
+                                <div class="spinner-border text-danger" style="width: 8rem; height: 8rem;" role="status">
+                                <span class="sr-only" ></span>
                             </div>
+                            </div>
+                            
                         </div>
-                        {% endfor %}
                     </div> 
                 </div>
-                <div class="row d-flex justify-content-center"><button class="btn btn-dark" type="submit" id="load_news">Load More</button></div>       
             </div>
-        </div>
+        </div>  
 
+        <!--### HOME ###-->
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">Home</div>
+        
+        <!--### PUBLIKASI ###-->
         <div class="tab-pane fade" id="pills-publikasi" role="tabpanel" aria-labelledby="pills-publikasi-tab">
-            <div class="container">
+            <div class="container container-publikasi">
                 <div class="row row2 d-flex justify-content-center">
-                    <div class="col-md-10">
-                        {% for o in posts %}
-                        <div class="card post-box-pub border-primary pb-3" style="max-width: 30rem;">
-                            <div class="card-header">Header</div>
-                            <div class="card-body text-primary">
-                                <h5 class="card-title">{{o.title}}</h5>
-                                <p class="card-text">{{o.cover}}</p>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div> 
+                    
                 </div>
                 <div class="row d-flex justify-content-center"><button class="btn btn-dark" type="submit" id="load_pub">Load More</button></div>       
             </div>
         </div>	
         	
-        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">Home</div>
+        <!--### DATA ###-->
         <div class="tab-pane fade" id="pills-data" role="tabpanel" aria-labelledby="pills-data-tab">Data</div>
+        
+        <!--### BRS ###-->
         <div class="tab-pane fade" id="pills-brs" role="tabpanel" aria-labelledby="pills-brs-tab">
-            <div class="container">
+            <div class="container container-brs">
                 <div class="row row5 d-flex justify-content-center">
-                    <div class="col-md-10">
-                        {% for o in posts %}
-                        <div class="card post-box-brs border-primary pb-3" style="max-width: 30rem;">
-                            <div class="card-header">Header</div>
-                            <div class="card-body text-primary">
-                                <h5 class="card-title">{{o.title}}</h5>
-                                <p class="card-text">{{o.rl_date}}</p>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div> 
+                    
                 </div>
                 <div class="row d-flex justify-content-center"><button class="btn btn-dark" type="submit" id="load_brs">Load More</button></div>       
+            </div>
+        </div>
+
+        <!--### BERITA ###-->
+        <div class="tab-pane fade" id="pills-berita" role="tabpanel" aria-labelledby="pills-berita-tab">
+            <div class="container container-berita">
+                <div class="row row1 d-flex justify-content-center">
+                     
+                </div>
+                <div class="row d-flex justify-content-center text-light"><button class="btn btn-info" type="submit" id="load_news" >Load More</button></div>   
+
             </div>
         </div>
     </div>
@@ -69,10 +65,26 @@
     {% csrf_token %}
     <script>
 
+    const tabs = document.querySelectorAll('.nav-item');
+    tabs.forEach(clickedTab => {
+        clickedTab.addEventListener('click', () => {
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            clickedTab.classList.add('active');
+            // var clickedContainer = document.getElement
+            console.log(clickedTab);
+        });
+        
+    });
+
+
     $(document).ready(function(){
         ////BERITA////
         //INIT
         $("#pills-berita-tab").on('click',function(){
+            $(".ajaxProgess").show();
+            $(".container-berita").hide();
             $('#header').text('Berita');
             $(window).scrollTop(0);
             $("#load_news").show();
@@ -85,12 +97,13 @@
                 },
                 dataType:'json',
                 success:function(res){
+                    $(".ajaxProgess").hide();
+                    $(".container-berita").show();
                     var _html='';
                     var json_data=res.posts;
                     $.each(json_data,function(index,data){
-                        _html+='<div class="card post-box-news border-primary b-3" style="width: 30rem;">'+
-                            '<div class="card-header">Header</div>'+
-                            '<div class="card-body text-primary">'+
+                        _html+='<div class="card post-box-news border-info m-1" style="width: 30rem;">'+
+                            '<div class="card-body">'+
                             '<h5 class="card-title">'+data.title+'</h5>'+
                             '<p class="card-text">'+data.rl_date+'</p>'+
                             '</div>'+
@@ -98,12 +111,17 @@
                             ;
                        });
                     $(".row1").html(_html);
+                    console.log('success');
                     
-                }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                    console.log('error');
+                }   
             });
         });
         //ADD MORE
         $("#load_news").on('click',function(){
+            $(".ajaxProgess").show();
             var _currentResult=$(".post-box-news").length;
             $.ajax({
                 url:"{% url 'load_more_news' %}",
@@ -117,12 +135,12 @@
                     $("#load_news").addClass('disabled').text('Loading..');
                 },
                 success:function(res){
+                    $(".ajaxProgess").hide();
                     var _html='';
                     var json_data=res.posts;
                     $.each(json_data,function(index,data){
-                        _html+='<div class="card post-box-news border-primary b-3" style="width: 30rem;">'+
-                            '<div class="card-header">Header</div>'+
-                            '<div class="card-body text-primary">'+
+                        _html+='<div class="card post-box-news border-info m-1" style="width: 30rem;">'+
+                            '<div class="card-body">'+
                             '<h5 class="card-title">'+data.title+'</h5>'+
                             '<p class="card-text">'+data.rl_date+'</p>'+
                             '</div>'+
@@ -145,6 +163,8 @@
         ////PUBLIKASI////
         //INIT
         $("#pills-publikasi-tab").on('click',function(){
+            $(".ajaxProgess").show();
+            $(".container-publiaksi").hide();
             $('#header').text('Publikasi');
             $(window).scrollTop(0);
             $("#load_pub").show();
@@ -157,12 +177,13 @@
                 },
                 dataType:'json',
                 success:function(res){
+                    $(".ajaxProgess").hide();
+                    $(".container-berita").show();
                     var _html='';
                     var json_data=res.posts;
                     $.each(json_data,function(index,data){
-                        _html+='<div class="card post-box-pub border-primary b-3" style="width: 30rem;">'+
-                            '<div class="card-header">Header</div>'+
-                            '<div class="card-body text-primary">'+
+                        _html+='<div class="card post-box-news border-info m-1" style="width: 30rem;">'+
+                            '<div class="card-body">'+
                             '<h5 class="card-title">'+data.title+'</h5>'+
                             '<p class="card-text">'+data.rl_date+'</p>'+
                             '</div>'+
@@ -176,6 +197,7 @@
         });
         //ADD MORE
         $("#load_pub").on('click',function(){
+            $(".ajaxProgess").show();
             var _currentResult=$(".post-box-pub").length;
             $.ajax({
             	url:"{% url 'load_more_pub' %}",
@@ -189,12 +211,12 @@
             		$("#load_pub").addClass('disabled').text('Loading..');
             	},
             	success:function(res){
+                    $(".ajaxProgess").hide();
             		var _html='';
             		var json_data=res.posts;
             		$.each(json_data,function(index,data){
-            			_html+='<div class="card post-box-pub border-primary b-3" style="width: 30rem;">'+
-                            '<div class="card-header">Header</div>'+
-                            '<div class="card-body text-primary">'+
+            			_html+='<div class="card post-box-news border-info m-1" style="width: 30rem;">'+
+                            '<div class="card-body">'+
                             '<h5 class="card-title">'+data.title+'</h5>'+
                             '<p class="card-text">'+data.rl_date+'</p>'+
                             '</div>'+
@@ -217,6 +239,8 @@
         ////BRS////
         //INIT
         $("#pills-brs-tab").on('click',function(){
+            $(".ajaxProgess").show();
+            $(".container-brs").hide();
             $('#header').text('Berita Resmi Statistik');
             $(window).scrollTop(0);
             $("#load_pub").show();
@@ -229,12 +253,13 @@
                 },
                 dataType:'json',
                 success:function(res){
+                    $(".ajaxProgess").hide();
+                    $(".container-brs").show();
                     var _html='';
                     var json_data=res.posts;
                     $.each(json_data,function(index,data){
-                        _html+='<div class="card post-box-brs border-primary b-3" style="width: 30rem;">'+
-                            '<div class="card-header">Header</div>'+
-                            '<div class="card-body text-primary">'+
+                        _html+='<div class="card post-box-news border-info m-1" style="width: 30rem;">'+
+                            '<div class="card-body">'+
                             '<h5 class="card-title">'+data.title+'</h5>'+
                             '<p class="card-text">'+data.rl_date+'</p>'+
                             '</div>'+
@@ -248,6 +273,7 @@
         });
         //ADD MORE
         $("#load_brs").on('click',function(){
+            $(".ajaxProgess").show();
             var _currentResult=$(".post-box-brs").length;
             $.ajax({
                 url:"{% url 'load_more_brs' %}",
@@ -261,12 +287,12 @@
                     $("#load_brs").addClass('disabled').text('Loading..');
                 },
                 success:function(res){
+                    $(".ajaxProgess").hide();
                     var _html='';
                     var json_data=res.posts;
                     $.each(json_data,function(index,data){
-                        _html+='<div class="card post-box-brs border-primary b-3" style="width: 30rem;">'+
-                            '<div class="card-header">Header</div>'+
-                            '<div class="card-body text-primary">'+
+                        _html+='<div class="card post-box-news border-info m-1" style="width: 30rem;">'+
+                            '<div class="card-body">'+
                             '<h5 class="card-title">'+data.title+'</h5>'+
                             '<p class="card-text">'+data.rl_date+'</p>'+
                             '</div>'+
