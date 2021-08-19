@@ -23,7 +23,6 @@ def load_init_news(request):
 	res = re.get(url, params=params)
 	data = res.json()
 	posts = data['data'][1]
-	print(posts)
 	return JsonResponse(data={
 		'posts':posts,
 	})
@@ -64,7 +63,6 @@ def load_init_pub(request):
 	res = re.get(url, params=params)
 	data = res.json()
 	posts = data['data'][1]
-	print(posts)
 	return JsonResponse(data={
 		'posts':posts,
 	})
@@ -91,7 +89,26 @@ def load_more_pub(request):
 		'totalResult':totalresult,
 	})
 
+def detail_pub(request):
+	url = 'https://webapi.bps.go.id/v1/api/view'
+	params = {
+		'model': 'publication',
+		'lang': 'ind',
+		'domain': '3501',
+		'id':indeks,
+		'key': '481cbe5f8403e091cb7abfd4d83829a3'
+	}
+	posts=[]
 
+	res = re.get(url, params=params)
+	data = res.json()
+
+	posts = data['data'][1]
+	totalresult = data['data'][0]['total']
+	return JsonResponse(data={
+		'posts':posts,
+		'totalResult':totalresult,
+	})
 
 def load_init_brs(request):
 	url = 'https://webapi.bps.go.id/v1/api/list'
@@ -106,7 +123,6 @@ def load_init_brs(request):
 	res = re.get(url, params=params)
 	data = res.json()
 	posts = data['data'][1]
-	print(posts)
 	return JsonResponse(data={
 		'posts':posts,
 	})
@@ -133,4 +149,20 @@ def load_more_brs(request):
 		'totalResult':totalresult,
 	})
 
+def load_init_data(request):
+	
+	url = 'https://webapi.bps.go.id/v1/api/list'
+	params = {
+		'model': 'subject',
+		'lang': 'ind',
+		'domain': '3501',
+		'page':1,
+		'key': '481cbe5f8403e091cb7abfd4d83829a3'
+	}
 
+	res = re.get(url, params=params)
+	data = res.json()
+	posts = data['data'][1]
+	return JsonResponse(data={
+		'posts':posts,
+	})

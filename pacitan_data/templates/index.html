@@ -10,32 +10,44 @@
                     <div class="col-md-10">
                         <div class="ajaxProgess">
                             <div class="text">
-                                <div class="spinner-border text-danger" style="width: 8rem; height: 8rem;" role="status">
-                                <span class="sr-only" ></span>
+                                <img src="{% static "gif/spinner.gif" %}">
                             </div>
-                            </div>
-                            
                         </div>
                     </div> 
                 </div>
             </div>
         </div>  
 
-        <!--### HOME ###-->
-        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">Home</div>
+        <!--### HOME ###row3-->
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div class="container mb-2">
+                <div class="d-flex justify-content-center row">
+                    <div class="col-md-10">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <!--### PUBLIKASI ###-->
         <div class="tab-pane fade" id="pills-publikasi" role="tabpanel" aria-labelledby="pills-publikasi-tab">
-            <div class="container container-publikasi">
-                <div class="row row2 d-flex justify-content-center">
-                    
+            <div class="container container-publikasi mt-3 mb-2">
+                <div class="row d-flex justify-content-center">
+                    <div class="row2 col-md-10">
+                    </div>
                 </div>
                 <div class="row d-flex justify-content-center"><button class="btn btn-dark" type="submit" id="load_pub">Load More</button></div>       
             </div>
         </div>	
         	
         <!--### DATA ###-->
-        <div class="tab-pane fade" id="pills-data" role="tabpanel" aria-labelledby="pills-data-tab">Data</div>
+        <div class="tab-pane fade" id="pills-data" role="tabpanel" aria-labelledby="pills-data-tab">
+            <div class="container container-data">
+                <div class="row row4 d-flex justify-content-center">
+                    {% include "snippets/treeview.html" %}
+                </div>
+            </div>
+        </div>
         
         <!--### BRS ###-->
         <div class="tab-pane fade" id="pills-brs" role="tabpanel" aria-labelledby="pills-brs-tab">
@@ -73,11 +85,18 @@
             });
             clickedTab.classList.add('active');
             // var clickedContainer = document.getElement
-            console.log(clickedTab);
+            
+            var par = (clickedTab.getAttribute('class')).toString().split(' ')[1].replace('tab','');
+            // console.log(par);
+            document.getElementById('pills-'+par+'-tab').click();
         });
         
     });
 
+    // Treeview Initialization
+    $(document).ready(function() {
+        $('.treeview-animated').mdbTreeview();
+    });
 
     $(document).ready(function(){
         ////BERITA////
@@ -111,7 +130,7 @@
                             ;
                        });
                     $(".row1").html(_html);
-                    console.log('success');
+                    // console.log('success');
                     
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -163,37 +182,56 @@
         ////PUBLIKASI////
         //INIT
         $("#pills-publikasi-tab").on('click',function(){
-            $(".ajaxProgess").show();
-            $(".container-publiaksi").hide();
-            $('#header').text('Publikasi');
-            $(window).scrollTop(0);
-            $("#load_pub").show();
-            $("#load_pub").removeClass('disabled').text('Load More');
-            $.ajax({
-                url:"{% url 'load_init_pub' %}",
-                type:'post',
-                data:{
-                    'csrfmiddlewaretoken':"{{csrf_token}}"
-                },
-                dataType:'json',
-                success:function(res){
-                    $(".ajaxProgess").hide();
-                    $(".container-berita").show();
-                    var _html='';
-                    var json_data=res.posts;
-                    $.each(json_data,function(index,data){
-                        _html+='<div class="card post-box-news border-info m-1" style="width: 30rem;">'+
-                            '<div class="card-body">'+
-                            '<h5 class="card-title">'+data.title+'</h5>'+
-                            '<p class="card-text">'+data.rl_date+'</p>'+
+            if($(".post-box-pub").length<1){
+                $(".ajaxProgess").show();
+                $(".container-publiaksi").hide();
+                $('#header').text('Publikasi');
+                $(window).scrollTop(0);
+                $("#load_pub").show();
+                $("#load_pub").removeClass('disabled').text('Load More');
+                $.ajax({
+                    url:"{% url 'load_init_pub' %}",
+                    type:'post',
+                    data:{
+                        'csrfmiddlewaretoken':"{{csrf_token}}"
+                    },
+                    dataType:'json',
+                    success:function(res){
+                        $(".ajaxProgess").hide();
+                        $(".container-berita").show();
+                        var _html='';
+                        var json_data=res.posts;
+                        $.each(json_data,function(index,data){
+                            _html+=
+                            '<div class="row p-2 mb-2 bg-white border rounded post-box-pub" id="'+data.pub_id+'">'+
+                            '<div class="col-md-3 mt-1 d-flex justify-content-center">'+
+                                '<img class="img-fluid img-responsive rounded product-image" src="'+data.cover+'" style="max-width:150px;" loading="lazy">'+
+                            '</div>'+
+                            '<div class="col-md-6 mt-1">'+
+                                '<p class="h5 font-weight-bold pl-1">'+data.title+'</p>'+
+                                '<div class="container">'+
+                                    '<div class="row d-flex flex-row">'+
+                                        '<p class="text-success pt-0 m-0">Ukuran : '+data.size+'</p>'+
+                                        '<p class="text-success font-weight-bold m-0">&nbsp|&nbsp</i>'+
+                                        '<p class="text-success m-0">Tanggal Rilis : '+data.rl_date+'</p>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="align-items-center col-md-3 border mt-1  bg-white">'+
+                                '<div class="d-flex flex-column mt-0">'+
+                                    '<button class="btn btn-outline-success btn-sm rounded-pill" type="button">Detail</button>'+
+                                    '<a class="btn btn-info btn-sm mt-0 mb-2 rounded-pill" role="button" href="'+data.pdf+'">Unduh</a>'+
+                                '</div>'+
                             '</div>'+
                             '</div>'
                             ;
-                       });
-                    $(".row2").html(_html);
-                    
-                }
-            });
+                           });
+                        $(".row2").html(_html);
+                        
+                    }
+                });
+            }
+            
         });
         //ADD MORE
         $("#load_pub").on('click',function(){
@@ -215,13 +253,29 @@
             		var _html='';
             		var json_data=res.posts;
             		$.each(json_data,function(index,data){
-            			_html+='<div class="card post-box-news border-info m-1" style="width: 30rem;">'+
-                            '<div class="card-body">'+
-                            '<h5 class="card-title">'+data.title+'</h5>'+
-                            '<p class="card-text">'+data.rl_date+'</p>'+
+            			_html+=
+                            '<div class="row p-2 mb-2 bg-white border rounded post-box-pub ">'+
+                            '<div class="col-md-3 mt-1 d-flex justify-content-center">'+
+                                '<img class="img-fluid img-responsive rounded product-image" src="'+data.cover+'" style="max-width:150px;" loading="lazy">'+
+                            '</div>'+
+                            '<div class="col-md-6 mt-1">'+
+                                '<p class="h5 font-weight-bold pl-1">'+data.title+'</p>'+
+                                '<div class="container">'+
+                                    '<div class="row d-flex flex-row">'+
+                                        '<p class="text-success pt-0 m-0">Ukuran : '+data.size+'</p>'+
+                                        '<p class="text-success font-weight-bold m-0">&nbsp|&nbsp</i>'+
+                                        '<p class="text-success m-0">Tanggal Rilis : '+data.rl_date+'</p>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="align-items-center col-md-3 border mt-1  bg-white">'+
+                                '<div class="d-flex flex-column mt-0">'+
+                                    '<button class="btn btn-outline-success btn-sm rounded-pill" type="button">Detail</button>'+
+                                    '<button class="btn btn-info btn-sm mt-0 mb-2 rounded-pill" type="button">Unduh</button>'+
+                                '</div>'+
                             '</div>'+
                             '</div>'
-                            ;
+                        ;
                        });
             		$(".row2").append(_html);
             		var _countTotal=$(".post-box-pub").length;

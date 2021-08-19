@@ -33,19 +33,22 @@
 
 .tab i{
 	font-size: 1.5em;
-	margin-left: 10px;
+	margin-left: 1px;
 }
 
 .tab p{
 	font-weight: bold;
-	font-size: 10px;
+	font-size: 12px;
 	overflow: hidden;
 	max-width: 0;
-	margin: 10px;
+	margin-left: 0px;
+	margin-bottom: 10px; 
+	margin-top:10px;
+	padding: 0;
 }
 
 .tab.active p{
-	margin-left: 5px;
+	margin-left: 1px;
 	max-width: 200px;
 	transition: max-width 0.7s linear;
 }
@@ -57,15 +60,102 @@
 	background: rgb(252, 247, 222);
 	color: rgb(191, 146, 23);
 }
-.nav-item.active.tabpublication{
+.nav-item.active.tabpublikasi{
 	background: rgb(222, 253, 224);
 	color: rgb(17, 143, 55);
 }
-.nav-item.active.tabrelease{
+.nav-item.active.tabbrs{
 	background: rgb(222, 243, 253);
 	color: rgb(17, 101, 143);
 }
-.nav-item.active.tabnews{
+.nav-item.active.tabberita{
 	background: rgb(240, 222, 253);
 	color: rgb(82, 17, 143);
+}
+
+
+.bps-lightblue{
+	background-color: rgb(227, 246, 255)!important;
+}
+
+.bps-lightgreen{
+	background-color: rgb(227, 246, 222)!important;
+}
+
+.bps-lightorange{
+	background-color: rgb(255, 243, 222)!important;
+}
+
+.bg-white{
+	background-color: rgb(255, 255, 255);
+}
+
+.bps-blue{
+	color: rgb(51, 149, 205)!important;
+}
+.bps-orange{
+	color: rgb(228, 145, 55)!important;
+}
+.bps-green{
+	color: rgb(117, 179, 60)!important;
+}
+
+.bordersosduk{
+	border-top: 5px solid rgb(51, 149, 205);
+}
+
+.borderekperd{
+	border-top: 5px solid rgb(228, 145, 55);
+}
+
+.borderpertpert{
+	border-top: 5px solid rgb(117, 179, 60);
+}
+
+.treeview-animated .treeview-animated-list .treeview-animated-items .nested::before {
+    position: absolute;
+    left: 5px;
+    display: block;
+    width: 5px;
+    height: 100%;
+    content: "";
+    background-color: rgb(222,222,222)!important;
+}
+
+.ratings i {
+    font-size: 16px;
+    color: red
+}
+
+.strike-text {
+    color: red;
+    text-decoration: line-through
+}
+
+.product-image {
+    width: 100%
+}
+
+.dot {
+    height: 7px;
+    width: 7px;
+    margin-left: 6px;
+    margin-right: 6px;
+    margin-top: 3px;
+    background-color: blue;
+    border-radius: 50%;
+    display: inline-block
+}
+
+.spec-1 {
+    color: #938787;
+    font-size: 15px
+}
+
+h5 {
+    font-weight: 400
+}
+
+.para {
+    font-size: 16px
 }
