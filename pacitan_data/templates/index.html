@@ -201,6 +201,7 @@
                         $(".container-berita").show();
                         var _html='';
                         var json_data=res.posts;
+                        console.log(json_data);
                         $.each(json_data,function(index,data){
                             _html+=
                             '<div class="row p-2 mb-2 bg-white border rounded post-box-pub" id="'+data.pub_id+'">'+
@@ -252,6 +253,7 @@
                     $(".ajaxProgess").hide();
             		var _html='';
             		var json_data=res.posts;
+
             		$.each(json_data,function(index,data){
             			_html+=
                             '<div class="row p-2 mb-2 bg-white border rounded post-box-pub ">'+
@@ -362,6 +364,61 @@
                     }else{
                         $("#load_brs").removeClass('disabled').text('Load More');
                     }
+                }
+            });
+        });
+
+        ////DATA////
+        //INIT
+        $("#pills-data-tab").on('click',function(){
+            $(".ajaxProgess").show();
+            $(".container-data").hide();
+            $('#header').text('Data Statistik');
+            $(window).scrollTop(0);
+            var sosial;
+            var ekonomi;
+            var pertanian;
+            $.ajax({
+                url:"{% url 'load_init_data' %}",
+                type:'post',
+                data:{
+                    'csrfmiddlewaretoken':"{{csrf_token}}"
+                },
+                dataType:'json',
+                success:function(res){
+                    $(".ajaxProgess").hide();
+                    $(".container-data").show();
+                    sosial=res.sosial;
+                    ekonomi=res.ekonomi;
+                    pertanian=res.pertanian;
+                    console.log(sosial);
+                    var _html1='';
+                    $.each(sosial,function(index,data){
+                        _html1+='<li class="treeview-animated-items">'+
+                                    '<a class="closed bps-lightblue">'+
+                                        '<i class="fas fa-angle-right bps-blue"></i>'+
+                                        '<span class="text-dark">'++'</span>'+
+                                    '</a>'+
+                                    '<ul class="nested">'+
+                                        '<li>'+
+                                            '<div class="treeview-animated-element bps-lightblue">'+
+                                                '<i class="fas fa-circle bps-blue" style="font-size: 0.5em;"></i>'+
+                                                '<span class="text-primary">Tabel1</span>'+
+                                            '</div>'+
+                                        '</li>'+
+                                        '<li>'+
+                                            '<div class="treeview-animated-element bps-lightblue">'+
+                                                '<i class="fas fa-circle bps-blue" style="font-size: 0.5em;"></i>'+
+                                                '<span class="text-primary">Tabel2</span>'+
+                                            '</div>'+
+                                        '</li>'+
+                                    '</ul>'+
+                                '</li>'
+                            ;
+                       });
+                    $(".categorysosial").html(_html1);
+                    
+                    
                 }
             });
         });

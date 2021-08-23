@@ -27,4 +27,6 @@ urlpatterns = [
 
     path('load_init_brs', views.load_init_brs, name='load_init_brs'),
     path('load_more_brs', views.load_more_brs, name='load_more_brs'),
+
+    path('load_init_data', views.load_init_data, name='load_init_data'),    
 ]

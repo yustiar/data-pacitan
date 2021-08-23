@@ -150,19 +150,30 @@ def load_more_brs(request):
 	})
 
 def load_init_data(request):
-	
+	sosial = []
+	ekonomi = []
+	pertanian = []
 	url = 'https://webapi.bps.go.id/v1/api/list'
-	params = {
-		'model': 'subject',
-		'lang': 'ind',
-		'domain': '3501',
-		'page':1,
-		'key': '481cbe5f8403e091cb7abfd4d83829a3'
-	}
-
-	res = re.get(url, params=params)
-	data = res.json()
-	posts = data['data'][1]
+	for i in range(5):
+	    params = {
+	    	'model': 'subject',
+	    	'lang': 'ind',
+	    	'domain': '3501',
+	    	'page':i+1,
+	    	'key': '481cbe5f8403e091cb7abfd4d83829a3'
+	    }
+	    res = re.get(url, params=params)
+	    data = res.json()
+	    j=0
+	    for j in range(len(data['data'][1])):
+	        if data['data'][1][j]['subcat_id'] == 1:
+	            sosial.append(data['data'][1][j])
+	        elif data['data'][1][j]['subcat_id'] == 2:
+	            ekonomi.append(data['data'][1][j])
+	        elif data['data'][1][j]['subcat_id'] == 3:
+	            pertanian.append(data['data'][1][j])
 	return JsonResponse(data={
-		'posts':posts,
+		'sosial':sosial,
+		'ekonomi':ekonomi,
+		'pertanian':pertanian,
 	})
