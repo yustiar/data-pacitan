@@ -1,0 +1,6 @@
+Jumlah Penduduk, 2020;586.110
+Jumlah Penduduk Miskin, 2020;80.820
+Garis Kemiskinan, 2020;Rp296.271
+Indeks Kedalaman Kemiskinan (P1), 2020;2.68
+Indeks Keparahan Kemiskinan (P2), 2020;0.71
+Rasio Gini, 2020;0.351
